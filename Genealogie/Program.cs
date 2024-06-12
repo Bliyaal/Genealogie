@@ -1,4 +1,4 @@
-using App.Components;
+using Genealogie.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
