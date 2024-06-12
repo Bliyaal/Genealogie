@@ -8,8 +8,12 @@ name: tfsec
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'Infrastructure/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'Infrastructure/**'
   schedule:
     - cron: '23 22 * * 6'
 
