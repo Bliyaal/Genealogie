@@ -1,0 +1,20 @@
+name: infrastructure
+run-name: Deploy infrastructure
+on: workflow_dispatch
+
+jobs:
+  deploy:
+    name: Deploy infrastructure
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: "1.9.2"
+
+    - run: terraform init
+    - run: terraform validate
+    - run: terraform apply -auto-approve
