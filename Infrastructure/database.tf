@@ -78,6 +78,7 @@ resource "kubernetes_persistent_volume_claim_v1" "postgres" {
 
   spec {
     access_modes = ["ReadWriteOnce"]
+    storage_class_name = kubernetes_persistent_volume_v1.postgres[each.key].spec[0].storage_class_name
 
     resources {
       requests = {
@@ -102,6 +103,7 @@ resource "kubernetes_persistent_volume_v1" "postgres" {
     }
 
     access_modes = ["ReadWriteOnce"]
+    storage_class_name = "local-storage"
 
     persistent_volume_source {
       host_path {
