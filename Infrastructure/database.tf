@@ -61,7 +61,7 @@ resource "kubernetes_deployment_v1" "postgres" {
 resource "kubernetes_secret_v1" "example" {
   for_each = local.environments
   metadata {
-    name      = "db_login"
+    name      = "db-login"
     namespace = kubernetes_namespace_v1.namespaces[each.key].metadata[0].name
   }
 
