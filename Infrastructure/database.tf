@@ -81,7 +81,7 @@ resource "kubernetes_persistent_volume_claim_v1" "postgres" {
 
     resources {
       requests = {
-        storage = "2Gi"
+        storage = kubernetes_persistent_volume_v1.postgres[each.key].spec[0].capacity[0].storage
       }
     }
 
