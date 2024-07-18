@@ -62,6 +62,18 @@ resource "kubernetes_deployment_v1" "postgres" {
             name       = kubernetes_persistent_volume_claim_v1.postgres[each.key].metadata[0].name
             mount_path = "/var/lib/postgresql/data"
           }
+
+          volume_mount {
+            name = "test"
+            mount_path = "/var/lib/thisisatest"
+          }
+        }
+
+        volume {
+          name = "test"
+          local {
+            path = "${var.postgres_volume_path}/${each.key}_test"
+          }
         }
 
         volume {
