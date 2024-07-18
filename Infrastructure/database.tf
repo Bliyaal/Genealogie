@@ -72,7 +72,7 @@ resource "kubernetes_persistent_volume_claim_v1" "postgres" {
   for_each = local.environments
 
   metadata {
-    name = "pgdata-${each.key}"
+    name = "pgdata"
     namespace = kubernetes_namespace_v1.namespaces[each.key].metadata[0].name
   }
 
