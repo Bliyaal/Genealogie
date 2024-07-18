@@ -27,5 +27,5 @@ jobs:
           terraform_version: "1.9.2"
       - run: terraform init
         working-directory: Infrastructure
-      - run: terraform ${{ inputs.command }} ${{ inputs.options }} -lock=false -state=${{ secrets.TF_STATE }} -var="kube_config_file=${{ secrets.KUBE_CONFIG_FILE }}" -var="kube_config_context=${{ secrets.KUBE_CONFIG_CONTEXT }}"
+      - run: terraform ${{ inputs.command }} ${{ inputs.options }} -lock=false -state=${{ secrets.TF_STATE }} -var="kube_config_file=${{ secrets.KUBE_CONFIG_FILE }}" -var="kube_config_context=${{ secrets.KUBE_CONFIG_CONTEXT }}" -var="posgres_volume_path=${{ secrets.POSTGRES_VOLUME_PATH }}"
         working-directory: Infrastructure

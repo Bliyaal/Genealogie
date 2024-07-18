@@ -27,6 +27,7 @@ resource "kubernetes_deployment_v1" "postgres" {
           name              = "postgres"
           image             = "docker.io/postgres:16.3-alpine"
           image_pull_policy = "IfNotPresent"
+
           resources {
             requests = {
               cpu    = "500m"
@@ -37,22 +38,74 @@ resource "kubernetes_deployment_v1" "postgres" {
               memory = "1Gi"
             }
           }
+
           port {
             container_port = 5432
           }
+
           env {
             name  = "POSTGRES_DB"
             value = "genealogie"
           }
+
           env {
             name  = "POSTGRES_USER"
             value = random_pet.db_user[each.key].id
           }
+
           env {
             name  = "POSTGRES_PASSWORD"
             value = random_password.db_password[each.key].result
           }
+
+          volume_mount {
+            name       = kubernetes_persistent_volume_claim_v1.postgres[each.key].metadata[0].name
+            mount_path = "pgdata"
+          }
         }
+      }
+    }
+  }
+}
+
+resource "kubernetes_persistent_volume_claim_v1" "postgres" {
+  for_each = local.environments
+
+  metadata {
+    name = "pgdata-${each.key}"
+    namespace = kubernetes_namespace_v1.namespaces[each.key].metadata[0].name
+  }
+
+  spec {
+    access_modes = ["ReadWriteOnce"]
+
+    resources {
+      requests = {
+        storage = "2Gi"
+      }
+    }
+
+    volume_name = kubernetes_persistent_volume_v1.postgres[each.key].metadata[0].name
+  }
+}
+
+resource "kubernetes_persistent_volume_v1" "postgres" {
+  for_each = local.environments
+
+  metadata {
+    name = "pgdata-${each.key}"
+  }
+
+  spec {
+    capacity = {
+      storage = "2Gi"
+    }
+
+    access_modes = ["ReadWriteOnce"]
+
+    persistent_volume_source {
+      host_path {
+        path = "${var.postgres_volume_path}/${each.key}"
       }
     }
   }

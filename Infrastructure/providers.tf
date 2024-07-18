@@ -1,11 +1,3 @@
-variable "kube_config_file" {
-  type = string
-}
-
-variable "kube_config_context" {
-  type = string
-}
-
 terraform {
   required_providers {
     kubernetes = {
