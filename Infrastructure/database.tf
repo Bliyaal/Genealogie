@@ -59,8 +59,16 @@ resource "kubernetes_deployment_v1" "postgres" {
           }
 
           volume_mount {
-            name       = kubernetes_persistent_volume_claim_v1.postgres[each.key].metadata[0].name
+            name       = kubernetes_persistent_volume_v1.postgres[each.key].metadata[0].name
             mount_path = "/var/lib/postgresql/data"
+          }
+        }
+
+        volume {
+          name = kubernetes_persistent_volume_v1.postgres[each.key].metadata[0].name
+          
+          persistent_volume_claim {
+            claim_name = kubernetes_persistent_volume_claim_v1.postgres[each.key].metadata[0].name
           }
         }
       }
