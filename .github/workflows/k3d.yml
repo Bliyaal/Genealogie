@@ -10,6 +10,7 @@ jobs:
     secrets: inherit
   apply:
     uses: ./.github/workflows/terraform.yml
+    needs: [plan]
     with:
       command: apply
       options: -auto-approve
