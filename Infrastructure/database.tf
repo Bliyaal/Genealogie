@@ -67,8 +67,12 @@ resource "kubernetes_deployment_v1" "postgres" {
         volume {
           name = kubernetes_persistent_volume_claim_v1.postgres[each.key].metadata[0].name
 
-          persistent_volume_claim {
-            claim_name = kubernetes_persistent_volume_claim_v1.postgres[each.key].metadata[0].name
+        #   persistent_volume_claim {
+        #     claim_name = kubernetes_persistent_volume_claim_v1.postgres[each.key].metadata[0].name
+        #   }
+          
+          local {
+            path = "${var.postgres_volume_path}/${each.key}"
           }
         }
       }
