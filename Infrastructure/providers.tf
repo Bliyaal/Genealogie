@@ -1,3 +1,11 @@
+variable "kube_config_file" {
+  type = string
+}
+
+variable "kube_config_context" {
+  type = string
+}
+
 terraform {
   required_providers {
     kubernetes = {
@@ -13,6 +21,6 @@ terraform {
 }
 
 provider "kubernetes" {
-  config_path    = "/home/michel/.kube/config"
-  config_context = "k3d-webserver"
+  config_path    = var.kube_config_file
+  config_context = var.kube_config_context
 }
