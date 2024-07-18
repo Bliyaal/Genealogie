@@ -76,7 +76,7 @@ resource "kubernetes_secret_v1" "example" {
 resource "random_pet" "db_user" {
   for_each  = local.environments
   length    = 2
-  separator = "_"
+  separator = "-"
 }
 
 resource "random_password" "db_password" {
